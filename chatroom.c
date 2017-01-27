@@ -63,7 +63,7 @@ int register_new_client(int sock, char *login, char *ip, int port)
 {
   int i = 0;
 
-  DEBUG("registering client %s(%s:%d)", login, ip, port);
+  //DEBUG("registering client %s(%s:%d)", login, ip, port);
 
   /* find the first empty cell in chat_room */
   while (chat_room[i].sock != 0 && i < MAX_CLIENTS ) i++;
@@ -195,7 +195,7 @@ int broadcast_msg(int code, int size, char *data)
 {
     int clt_sock;
     int i;
-    DEBUG("broadcasting message \"%s\"", data);
+    //DEBUG("broadcasting message \"%s\"", data);
 
     // envoie le message à tous les clients connectés la socket d'un
     // client peut être récupérée avec la fonction get_client_socket(i),
@@ -231,6 +231,12 @@ int broadcast_text(char *login, char *data)
   return retval;
 }
 
+int compare(char *a, char *b){
+    return 0;
+}
+
+
+
 /* clt_authentication authenticate a new buddy and return her login
    clt_sock: client socket
    return a pointer to newly allocated string containing the login
@@ -238,7 +244,7 @@ int broadcast_text(char *login, char *data)
 char* clt_authentication(int clt_sock){
   int attemp;
   for(attemp=0; attemp < MAX_AUTH_ATTEMPS; attemp++){
-    printf("ESSAI %d:\n",attemp);
+    printf("ESSAI %d:\n",attemp+1);
     
     /* 
        authentification du client :
@@ -263,12 +269,13 @@ char* clt_authentication(int clt_sock){
      send_msg(clt_sock, AUTH_REQ,0,NULL);
      recv_msg(clt_sock,&code,&size,&message);
      if(code!=AUTH_RESP){
-        DEBUG("Problème dans la demande d'authentification");
+        DEBUG("Problème dans la demande d'authentification\n");
         continue;
      }
      
-     for(i=0;i<MAX_CLIENTS;i++){
-        if(get_client_login(i)==message){
+     for(i=0;i<MAX_CLIENTS;i++){     
+        
+        if(strcmp(get_client_login(i), message)==0){
             DEBUG("Identifiant déjà pris");
             send_msg(clt_sock,ACCESS_DENIED,0,NULL);
             return NULL;
@@ -286,7 +293,6 @@ char* clt_authentication(int clt_sock){
 int login_chatroom(int clt_sock, char *ip, int port)
 {
   char *login;
-  printf("rentré dans login chatroom\n");
   
   if ( curr_nb_clients == MAX_CLIENTS ) 
     {
@@ -395,7 +401,6 @@ void *chatroom(void *arg)
             discussion. La fonction deregister_client(i) permet de retirer le client i.
             */
             recv_msg(clt_sock, &code, &size, &data);
-            DEBUG("DDDDDDDD     :  %s\n",data);
             if(code == MESG){
                 broadcast_text(get_client_login(i),data);
                 free(data);

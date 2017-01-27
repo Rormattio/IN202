@@ -98,11 +98,11 @@ int authenticate(int clt_sock){
     return -1;
   }
   else if(code==ACCESS_DENIED){
-    printf("Cet identifiant n'est pas correct!!!! è_é");
+    printf("Cet identifiant n'est pas correct!!!! è_é\n");
     return -1;
   }
   else{
-    printf("Authentification réussie");
+    printf("Authentification réussie, appuyez sur Entrer\n");
     return 1;
   }
   
@@ -148,8 +148,6 @@ int instant_messaging(int clt_sock){
        strtok(data,"\n");
        size = strlen(data)+1;
       
-       DEBUG("sending MESG %s(%d)", data, size);
-
        send_msg(clt_sock, MESG, size, data);
        free(data);
     }
@@ -204,7 +202,7 @@ int main(int argc, char *argv[]){
   body=malloc(BUFFSIZE);
   ssize_t messagerecu=recv_msg(clt_sock, &code, &size, &body);
   if (messagerecu==-1)
-    DEBUG("message non recu");
+    DEBUG("message non recu\n");
   printf("%s\n",body);
   free(body);
   //chatroom();

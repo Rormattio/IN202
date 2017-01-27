@@ -15,7 +15,8 @@ int send_msg(int sock, unsigned char code, unsigned char size, char *body)
   msg.size = size;
   
   ssize_t send1=send(sock, &msg, sizeof(msg_t), 0);
-  printf("Oh dear, something went wrong with send1()! %s\n", strerror(errno));
+  
+  //printf("Oh dear, something went wrong with send1()! %s\n", strerror(errno));
   
   //DEBUG("send1: code:%d,size:%d", code, size);
   if (body==NULL) {
@@ -24,12 +25,12 @@ int send_msg(int sock, unsigned char code, unsigned char size, char *body)
   }
   
   //ssize_t send2=send(sock, body, size, 0);
-  char * mes = "fgfgf11";
-  DEBUG("JE PRINT LE BODYYYY %s", body);
   ssize_t send2=send(sock, body, size, 0);
-   printf("Oh dear, something went wrong with send2()! %s\n", strerror(errno));
+  
+  //printf("Oh dear, something went wrong with send2()! %s\n", strerror(errno));
+  
   if (send1==-1 || send2==-1){
-    DEBUG("Message 2 non envoyé");
+    DEBUG("Message non envoyé");
     return -1;
   }
   return 0;
@@ -54,7 +55,7 @@ int recv_msg(int sock, unsigned char *code, unsigned char *size, char **body)
   *code=msg.code;
   
   if (body==NULL || size==NULL) {
-        DEBUG("le message reçu est vide");
+        //DEBUG("le message reçu est vide");
 		return 0;
   }
   
@@ -62,7 +63,7 @@ int recv_msg(int sock, unsigned char *code, unsigned char *size, char **body)
   *body = malloc(*size * sizeof(char));
   
   ssize_t rcv2=recv(sock, *body, BUFFSIZE, 0);
-  DEBUG("RCV BODY     %s\n", *body);
+  
   if (rcv2 == -1) {
     DEBUG("message 2 non reçu");
     return -1;

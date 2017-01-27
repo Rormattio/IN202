@@ -46,7 +46,7 @@ int create_a_listening_socket(int srv_port, int maxconn){
   */
   int srv_sock = socket(AF_INET, SOCK_STREAM, 0);
   if (srv_sock == -1) {
-        DEBUG("Cant create Socket");
+        DEBUG("Can't create Socket");
   }
   
   struct sockaddr_in socket_addr;
@@ -60,7 +60,7 @@ int create_a_listening_socket(int srv_port, int maxconn){
   
   if (bind_succes==-1)
   {
-    DEBUG("Couldnt bind\n");
+    DEBUG("Couldn't bind\n");
     return -1;
   }
   
