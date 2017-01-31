@@ -186,7 +186,7 @@ int instant_messaging(int clt_sock){
 	  strtok_r(data,":", &token);
 	  
 	  	
-	  printf(KCYN "%s:" RESET "%s\n", data, token);
+	  printf(MAG "%s:" RESET "%s\n", data, token);
 	  free(data);
 	  if (code == END_OK) {
           return 0;

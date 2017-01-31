@@ -403,7 +403,7 @@ void *chatroom(void *arg)
             */
             recv_msg(clt_sock, &code, &size, &data);
 
-            //DEBUG("Debug de la réception :%s",data);
+            DEBUG("Debug de la réception :%s",data);
 
             if(code == MESG){
                 broadcast_text(get_client_login(i),data);
